@@ -10,3 +10,5 @@ Features:
 
 Update:
 -reworked to reduce the notification spam from demanding hundreds of hooks.
+
+Steam Workshop: https://steamcommunity.com/sharedfiles/filedetails/?id=3623174378
