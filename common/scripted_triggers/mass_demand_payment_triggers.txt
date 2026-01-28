@@ -1,0 +1,47 @@
+﻿can_demand_payment_any_gold_trigger = {
+    root = {
+		is_character_interaction_potentially_accepted = {
+			recipient = prev
+			interaction = demand_payment_interaction
+		}
+	}
+	gold >= 1
+}
+
+can_demand_payment_half_gold_trigger = {
+    root = {
+		is_character_interaction_potentially_accepted = {
+			recipient = prev
+			interaction = demand_payment_interaction
+		}
+	}	
+	gold >= { value = golden_obligation_value multiply = 0.5 }
+}
+
+can_demand_payment_full_gold_trigger = {
+    root = {
+		is_character_interaction_potentially_accepted = {
+			recipient = prev
+			interaction = demand_payment_interaction
+		}
+	}
+	gold >= golden_obligation_value
+}
+
+can_demand_any_gold = {
+    any_hooked_character = {
+        can_demand_payment_any_gold_trigger = yes
+    }
+}
+
+can_demand_half_gold = {
+    any_hooked_character = {
+        can_demand_payment_half_gold_trigger = yes
+    }
+}
+
+can_demand_full_gold = {
+    any_hooked_character = {
+        can_demand_payment_full_gold_trigger = yes
+    }
+}

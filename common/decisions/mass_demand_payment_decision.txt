@@ -1,0 +1,208 @@
+﻿mass_demand_payment_decision = {
+	
+	decision_group_type = admin
+	sort_order = 10 
+	
+	title = mass_demand_payment_decision 
+	desc = mass_demand_payment_decision_desc
+	confirm_text = mass_demand_payment_decision_confirm
+	
+	selection_tooltip = mass_demand_payment_decision_tooltip
+	
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_spend_money.dds"
+	}
+
+	is_shown = {
+		is_ai = no
+		OR = {
+			has_perk = golden_obligations_perk
+			any_character_struggle = {
+				involvement = involved
+				has_struggle_phase_parameter = unlocks_demand_payments_for_all
+			}
+		}
+	}
+	
+    is_valid_showing_failures_only = {
+		trigger_if = {
+			limit = { always = yes }
+			custom_tooltip = {
+				text = mass_demand_payment_failure
+				can_demand_any_gold = yes
+			}
+		}
+    }
+	
+	is_valid = {
+		OR = {
+			has_perk = golden_obligations_perk
+			any_character_struggle = {
+				involvement = involved
+				has_struggle_phase_parameter = unlocks_demand_payments_for_all
+			}
+		}
+		OR = {
+			custom_tooltip = {
+				text = can_demand_any_gold
+				can_demand_any_gold = yes
+			}
+			custom_tooltip = {
+				text = can_demand_half_gold
+				can_demand_half_gold = yes	
+			}
+			custom_tooltip = {
+				text = can_demand_full_gold
+				can_demand_full_gold = yes				
+			}
+		}
+	}
+
+	widget = {
+		gui = "decision_view_widget_option_list_generic"
+		controller = decision_option_list_controller
+		decision_to_second_step_button = "CHOOSE_GOLD_THRESHOLD"
+		show_from_start = yes
+
+		item = {
+			value = any_gold
+			current_description = mass_demand_payment_any_gold
+			localization = mass_demand_payment_any_gold
+			icon = "gfx/interface/icons/icon_gold.dds"
+			is_valid = { 
+				custom_tooltip = {
+					text = can_demand_any_gold
+					can_demand_any_gold = yes 	
+				}
+			}
+		}
+
+		item = {
+			value = half_gold
+			current_description = mass_demand_payment_half_gold
+			localization = mass_demand_payment_half_gold
+			icon = "gfx/interface/icons/icon_gold.dds"
+			is_valid = { 
+				custom_tooltip = {
+					text = can_demand_half_gold
+					can_demand_half_gold = yes 
+				}
+			}
+		}
+
+		item = {
+			value = full_gold
+			current_description = mass_demand_payment_full_gold
+			localization = mass_demand_payment_full_gold
+			icon = "gfx/interface/icons/icon_gold.dds"
+			is_valid = { 
+				custom_tooltip = {
+					text = can_demand_full_gold
+					can_demand_full_gold = yes 
+				}
+			}
+		}
+	}
+	
+	ai_potential = { always = no }
+	
+	effect = {
+		hidden_effect = {
+			set_variable = { name = mdp_total_gold value = 0 }
+			set_variable = { name = mdp_paid_count value = 0 }
+		}
+
+		if = { limit = { scope:any_gold = yes } custom_tooltip = { text = mass_demand_payment_any_gold_estimate } }
+		else_if = { limit = { scope:half_gold = yes } custom_tooltip = { text = mass_demand_payment_half_gold_estimate } }
+		else_if = { limit = { scope:full_gold = yes } custom_tooltip = { text = mass_demand_payment_full_gold_estimate } }
+		
+		hidden_effect = { 
+            
+            if = {
+                limit = { always = yes } 
+
+                every_hooked_character = {
+                    limit = {
+                        OR = {
+                            AND = { scope:any_gold = yes  can_demand_payment_any_gold_trigger = yes }
+                            AND = { scope:half_gold = yes can_demand_payment_half_gold_trigger = yes }
+                            AND = { scope:full_gold = yes can_demand_payment_full_gold_trigger = yes }
+                        }
+                    }
+					save_scope_as = current_hooked
+                    # Adapted Vanila Logic
+                    hidden_effect = { 
+                        root = { 
+                            use_hook = scope:current_hooked
+                            
+                            stress_impact = {
+                                generous = medium_stress_impact_gain
+                            }
+
+                            add_clan_unity_interaction_effect = {
+                                CHARACTER = root 
+                                TARGET = scope:current_hooked
+                                VALUE = minor_unity_loss
+                                DESC = clan_unity_demand_payment.desc
+                                REVERSE_NON_HOUSE_TARGET = no
+                            }
+                        }
+                        
+                        scope:current_hooked = {
+                            if = {
+                                limit = { gold > golden_obligation_value }
+                                
+                                root = {
+                                    change_variable = { 
+										name = mdp_total_gold 
+										add = { 
+											value = prev.golden_obligation_value 
+											floor = yes
+										}
+									}
+                                }
+                                
+                                pay_short_term_gold = {
+                                    target = root 
+                                    gold = golden_obligation_value
+                                }
+                            }
+                            else = {
+                                root = {
+                                    change_variable = {  
+                                        name = mdp_total_gold 
+                                        add = {
+                                            value = prev.gold 
+                                            floor = yes
+                                        }
+                                    }
+                                }
+
+                                pay_short_term_gold = {
+                                    target = root
+                                    gold = {
+                                        value = gold 
+                                        floor = yes
+                                    }
+                                }
+                            } 
+                        
+                            root = {
+                                change_variable = { name = mdp_paid_count add = 1 }
+                            }
+                        }
+                    }
+                } 
+            }
+			
+			custom_tooltip = { text = mass_demand_payment_decision_effect }
+
+			send_interface_toast = {
+				type = event_toast_effect_neutral
+				title = mass_demand_payment_toast_title
+				custom_tooltip = mass_demand_payment_toast_desc
+				left_icon = scope:root
+			}
+		}
+	}
+}

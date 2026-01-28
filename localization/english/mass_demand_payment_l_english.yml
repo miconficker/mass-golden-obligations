@@ -1,0 +1,27 @@
+﻿l_english:
+ mass_demand_payment_decision: "Demand Payment for All Hooks" 
+ mass_demand_payment_decision_desc: "Demands payment for all [hooks|E] on all characters at once. Choose your gold threshold."
+ mass_demand_payment_decision_tooltip: "Demands payment for all [hooks|E]. Requires Golden Obligations perk."
+ mass_demand_payment_decision_confirm: "Confirm"
+ mass_demand_payment_decision_effect: "Send payment demands to all eligible characters."
+ mass_demand_payment_failure: "No valid characters"
+
+ # Widget options
+ CHOOSE_GOLD_THRESHOLD: "Choose Gold Threshold"
+ mass_demand_payment_any_gold: "Any Gold"
+ mass_demand_payment_half_gold: "At Least Half (≥50%)"
+ mass_demand_payment_full_gold: "Full Amount Only"
+ any_gold_tooltip: "Demand from anyone with any gold, even if they can't pay in full"
+ half_gold_tooltip: "Demand from those with at least 50% of the required amount"
+ full_gold_tooltip: "Only demand from those who can pay the full amount"
+
+ mass_demand_payment_any_gold_estimate: "Estimated gold gain: @gold_icon! [THIS.ScriptValue('total_gold_any_threshold_value')|P] from [THIS.ScriptValue('eligible_characters_any_threshold')|0] characters."
+ mass_demand_payment_half_gold_estimate: "Estimated gold gain: @gold_icon! [THIS.ScriptValue('total_gold_half_threshold_value')|P] from [THIS.ScriptValue('eligible_characters_half_threshold')|0] characters."
+ mass_demand_payment_full_gold_estimate: "Estimated gold gain: @gold_icon! [THIS.ScriptValue('total_gold_full_threshold_value')|P] from [THIS.ScriptValue('eligible_characters_full_threshold')|0] characters."
+
+ can_demand_any_gold: "At least one [hooked|E] character has any gold"
+ can_demand_half_gold: "At least one [hooked|E] character has ≥50% of obligation"
+ can_demand_full_gold: "At least one [hooked|E] character can pay full obligation"
+ 
+ mass_demand_payment_toast_title: "Payments from Hooks Collected"
+ mass_demand_payment_toast_desc: "Collected [GetPlayer.MakeScope.Var('mdp_total_gold').GetValue|0] [gold_i] from [GetPlayer.MakeScope.Var('mdp_paid_count').GetValue|0] characters."

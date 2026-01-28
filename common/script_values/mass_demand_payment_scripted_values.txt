@@ -1,0 +1,72 @@
+﻿total_gold_any_threshold_value = {
+    value = 0
+    root = {
+        every_hooked_character = {
+            limit = { can_demand_payment_any_gold_trigger = yes }
+            add = { 
+				value = golden_obligation_value_check_current_situation
+				floor = yes
+			}
+        }
+    }
+}
+
+
+total_gold_half_threshold_value = {
+    value = 0
+    root = {
+        every_hooked_character = {
+            limit = { can_demand_payment_half_gold_trigger = yes }
+            add = { 
+				value = golden_obligation_value_check_current_situation
+				floor = yes
+			}
+        }
+    }
+}
+
+total_gold_full_threshold_value = {
+    value = 0
+    root = {
+        every_hooked_character = {
+            limit = { can_demand_payment_full_gold_trigger = yes }
+            add = { 
+				value = golden_obligation_value_check_current_situation
+				floor = yes
+			}
+        }
+    }
+}
+
+eligible_characters_any_threshold = {
+    value = 0
+
+    root = {
+        every_hooked_character = {
+            limit = { can_demand_payment_any_gold_trigger = yes }
+            add = 1
+        }
+    }
+}
+
+eligible_characters_half_threshold = {
+    value = 0
+
+    root = {
+        every_hooked_character = {
+            limit = { can_demand_payment_half_gold_trigger = yes }
+            add = 1
+        }
+    }
+}
+
+eligible_characters_full_threshold = {
+    value = 0
+
+    root = {
+        every_hooked_character = {
+            limit = { can_demand_payment_full_gold_trigger = yes }
+            add = 1
+        }
+    }
+}
